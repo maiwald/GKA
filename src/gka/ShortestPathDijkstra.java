@@ -14,13 +14,15 @@ import org.jgrapht.Graphs;
  */
 public class ShortestPathDijkstra<V> {
     
-    Graph g = null;
+    private final Graph g;
     
-    Set<V> done = new HashSet();
-    Set<V> remaining = new HashSet();
+    private Set<V> done = new HashSet();
+    private Set<V> remaining = new HashSet();
 
-    Map<V,Double> distances = new HashMap();
-    Map<V,V> predecessors = new HashMap();
+    private Map<V,Double> distances = new HashMap();
+    private Map<V,V> predecessors = new HashMap();
+
+    int counter = 0;
     
     public ShortestPathDijkstra(Graph g)
     {
@@ -31,7 +33,7 @@ public class ShortestPathDijkstra<V> {
     {
         clearState();
         this.remaining = new HashSet<V>(this.g.vertexSet());
-        
+
         for (V elem : this.remaining)
             this.distances.put(elem, Double.POSITIVE_INFINITY);
         
@@ -64,6 +66,8 @@ public class ShortestPathDijkstra<V> {
 
     private void updateDistance(V source, V target)
     {
+        this.counter++;
+        
         double alternative = this.distances.get(source) + 
                 this.g.getEdgeWeight(this.g.getEdge(source, target));
 
@@ -93,5 +97,7 @@ public class ShortestPathDijkstra<V> {
         this.done.clear();
         this.distances.clear();
         this.predecessors.clear();
+        
+        this.counter = 0;
     }            
 }

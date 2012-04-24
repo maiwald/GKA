@@ -24,10 +24,11 @@ public class GKA {
         depthFirst.traverse();
         System.out.println();
     }
-    
+
     public static void aufgabe_2() {
         Graph g = (new GraphLoader("data/graph_01.graph.txt")).getGraph();
         ShortestPathDijkstra sp = new ShortestPathDijkstra<String>(g);
         System.out.println(sp.getShortestPath("Hamburg", "München"));
+        System.out.println(sp.counter);
     }
 }
