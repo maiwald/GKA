@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gka;
+package gka.pathfinders;
 
 import java.util.*;
 import org.jgrapht.Graph;
@@ -12,7 +12,7 @@ import org.jgrapht.Graphs;
  *
  * @author maiwald
  */
-public class ShortestPathDijkstra<V> {
+public class Dijkstra<V> {
     
     private final Graph g;
     
@@ -22,9 +22,9 @@ public class ShortestPathDijkstra<V> {
     private Map<V,Double> distances = new HashMap();
     private Map<V,V> predecessors = new HashMap();
 
-    int counter = 0;
+    public int counter = 0;
     
-    public ShortestPathDijkstra(Graph g)
+    public Dijkstra(Graph g)
     {
         this.g = g;
     }

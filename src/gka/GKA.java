@@ -4,6 +4,9 @@
  */
 package gka;
 
+import gka.pathfinders.Dijkstra;
+import gka.traversers.Traverser;
+import gka.traversers.DepthFirst;
 import org.jgrapht.Graph;
 
 /**
@@ -18,7 +21,7 @@ public class GKA {
 
     public static void aufgabe_1() {
         Graph depthFirstGraph = (new GraphLoader("data/graph_01.graph.txt")).getGraph();
-        Traverser depthFirst = new DepthFirstTraverser<String>(depthFirstGraph, "Hamburg");
+        Traverser depthFirst = new DepthFirst<String>(depthFirstGraph, "Hamburg");
         System.out.println("Depth First");
         depthFirst.traverse();
         System.out.println();
@@ -26,7 +29,7 @@ public class GKA {
 
     public static void aufgabe_2() {
         Graph g = (new GraphLoader("data/graph_01.graph.txt")).getGraph();
-        ShortestPathDijkstra sp = new ShortestPathDijkstra<String>(g);
+        Dijkstra sp = new Dijkstra<String>(g);
         System.out.println(sp.getShortestPath("Hamburg", "München"));
         System.out.println(sp.counter);
     }

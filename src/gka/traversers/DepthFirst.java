@@ -1,4 +1,4 @@
-package gka;
+package gka.traversers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,11 @@ import org.jgrapht.Graphs;
  *
  * @author abe263
  */
-public class DepthFirstTraverser<V> extends Traverser<V> {
+public class DepthFirst<V> extends Traverser<V> {
     
     private List<V> visited;
     
-    DepthFirstTraverser(Graph g, V root) {
+    public DepthFirst(Graph g, V root) {
         super(g, root);
     }
     

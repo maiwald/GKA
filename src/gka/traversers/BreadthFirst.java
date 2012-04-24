@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gka;
+package gka.traversers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,9 @@ import org.jgrapht.Graphs;
  *
  * @author abe263
  */
-public class BreadthFirstTraverser<V> extends Traverser<V> {
+public class BreadthFirst<V> extends Traverser<V> {
       
-    BreadthFirstTraverser(Graph g, V root) {
+    public BreadthFirst(Graph g, V root) {
         super(g, root);
     }
     
