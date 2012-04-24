@@ -14,7 +14,7 @@ public class GKA {
 
 
     public static void main(String[] args) {
-        aufgabe_1();
+        aufgabe_2();
     }
     
     public static void aufgabe_1() {
@@ -23,5 +23,11 @@ public class GKA {
         System.out.println("Depth First");
         depthFirst.traverse();
         System.out.println();
+    }
+    
+    public static void aufgabe_2() {
+        Graph g = (new GraphLoader("data/graph_01.graph.txt")).getGraph();
+        ShortestPathDijkstra sp = new ShortestPathDijkstra<String>(g);
+        System.out.println(sp.getShortestPath("Hamburg", "München"));
     }
 }
