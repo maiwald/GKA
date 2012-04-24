@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gka1;
+package gka;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -38,7 +38,7 @@ public class GraphLoader {      //Für das einlesen von Graphen aus Dateien
             // erste zeile: gerichtet oder ungerichtet
             if((line = this.br.readLine()) != null) {
                 if(!line.startsWith("#"))
-                    return null;
+                    throw new RuntimeException("erste Zeile falsches Format!");
 
                 if (line.substring(1).equals("gerichtet")) {                            
                     g = new ListenableDirectedWeightedGraph(DefaultWeightedEdge.class);
@@ -48,10 +48,10 @@ public class GraphLoader {      //Für das einlesen von Graphen aus Dateien
                     g = new ListenableUndirectedWeightedGraph(DefaultWeightedEdge.class);
                     directed = false;
                 } else {
-                    return null;
+                    throw new RuntimeException("erste Zeile falscher Wert!");
                 }
             }
-            else return null;
+            else throw new RuntimeException("keine erste Zeile gefunden.");;
 
             // ecken, kanten einlesen
             while((line = this.br.readLine()) != null) {
@@ -62,7 +62,7 @@ public class GraphLoader {      //Für das einlesen von Graphen aus Dateien
                 g.addEdge(values[0], values[1]);
                 g.setEdgeWeight(g.getEdge(values[0], values[1]), Float.parseFloat(values[2]));
 
-                if (!directed)
+                if (directed)
                 {
                     g.addEdge(values[1], values[0]); //gegenkante hinzufügen
                     g.setEdgeWeight(g.getEdge(values[1], values[0]), Float.parseFloat(values[3]));
