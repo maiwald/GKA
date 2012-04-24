@@ -7,10 +7,11 @@ package gka;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
-
-import org.jgrapht.*;
-import org.jgrapht.graph.*;
+import org.jgrapht.Graph;
+import org.jgrapht.WeightedGraph;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.ListenableDirectedWeightedGraph;
+import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
 
 /**
  *
