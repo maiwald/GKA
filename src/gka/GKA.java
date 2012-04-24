@@ -12,11 +12,10 @@ import org.jgrapht.Graph;
  */
 public class GKA {
 
-
     public static void main(String[] args) {
         aufgabe_2();
     }
-    
+
     public static void aufgabe_1() {
         Graph depthFirstGraph = (new GraphLoader("data/graph_01.graph.txt")).getGraph();
         Traverser depthFirst = new DepthFirstTraverser<String>(depthFirstGraph, "Hamburg");

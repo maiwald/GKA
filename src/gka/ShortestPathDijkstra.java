@@ -97,7 +97,7 @@ public class ShortestPathDijkstra<V> {
         this.done.clear();
         this.distances.clear();
         this.predecessors.clear();
-        
+
         this.counter = 0;
     }            
 }
