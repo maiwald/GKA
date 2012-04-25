@@ -35,7 +35,6 @@ public class Dijkstra<V> {
         calculateShortestPaths();
     }
     
-    
     public List<V> getShortestPathToTarget(V target)
     {
         List<V> path = new LinkedList();

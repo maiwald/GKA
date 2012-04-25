@@ -21,7 +21,7 @@ public class FloydWarshall<V>
 
     public int counter = 0;
 
-    static class NegativeCircleFoundException extends RuntimeException
+    public static class NegativeCircleFoundException extends RuntimeException
     {};
 
     public FloydWarshall(Graph g)
@@ -119,10 +119,28 @@ public class FloydWarshall<V>
                     
                     if (this.d.get(i).get(i) < 0)
                     {
+                        printDMatrix();
+                        printTMatrix();
                         throw new NegativeCircleFoundException();
                     }
                 }
             }
         }
+    }
+    
+    public void printDMatrix()
+    {
+        System.out.println("D-Matrix");
+        for (V i : this.vertices)
+            for (V j : this.vertices)
+                System.out.println(String.format("%s,%s : %s", i, j, this.d.get(i).get(j)));
+    }
+    
+    public void printTMatrix()
+    {
+        System.out.println("T-Matrix");
+        for (V i : this.vertices)
+            for (V j : this.vertices)
+                System.out.println(String.format("%s,%s : %s", i, j, this.t.get(i).get(j)));
     }
 }
