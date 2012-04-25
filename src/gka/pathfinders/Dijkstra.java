@@ -17,7 +17,6 @@ public class Dijkstra<V> {
     private final Graph g;
     private final V source;
     
-    private Set<V> done = new HashSet();
     private Set<V> remaining = new HashSet();
 
     private Map<V,Double> distances = new HashMap();
@@ -29,7 +28,8 @@ public class Dijkstra<V> {
     {
         this.g = g;
         this.source = source;
-        
+
+        clearState();
         calculateShortestPaths();
     }
     
@@ -51,7 +51,6 @@ public class Dijkstra<V> {
 
     private void calculateShortestPaths()
     {
-        clearState();
         this.remaining = new HashSet<V>(this.g.vertexSet());
 
         for (V elem : this.remaining)
@@ -98,7 +97,6 @@ public class Dijkstra<V> {
     }
 
     private void clearState() {
-        this.done.clear();
         this.distances.clear();
         this.predecessors.clear();
 
