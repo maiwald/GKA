@@ -22,6 +22,8 @@ public class FloydWarshall<V>
     private Map<V, Map<V, Double>> d;
     private Map<V, Map<V, V>> t;
 
+    public int counter = 0;
+
     public FloydWarshall(Graph g)
     {
         this.g = g;
@@ -29,6 +31,11 @@ public class FloydWarshall<V>
 
         initializeDMatrix();
         initializeTMatrix();
+    }
+    
+    public List<V> getShortestPath(V source, V target)
+    {
+        return null;
     }
 
     private void initializeDMatrix()
@@ -66,5 +73,10 @@ public class FloydWarshall<V>
             for (V col : this.vertices)
                 this.t.get(row).put(col, null);
         }
+    }
+    
+    private void calculateShortestPaths()
+    {
+        
     }
 }

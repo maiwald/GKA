@@ -5,6 +5,7 @@
 package gka;
 
 import gka.pathfinders.Dijkstra;
+import gka.pathfinders.FloydWarshall;
 import gka.traversers.DepthFirst;
 import gka.traversers.Traverser;
 import org.jgrapht.Graph;
@@ -29,8 +30,12 @@ public class GKA {
 
     public static void aufgabe_2() {
         Graph g = (new GraphLoader("data/graph_01.graph.txt")).getGraph();
-        Dijkstra sp = new Dijkstra<String>(g);
-        System.out.println(sp.getShortestPath("Hamburg", "München"));
-        System.out.println(sp.counter);
+        Dijkstra sp_dijkstra = new Dijkstra<String>(g, "Hamburg");
+        System.out.println(sp_dijkstra.getShortestPathToTarget("München"));
+        System.out.println(sp_dijkstra.counter);
+
+        FloydWarshall sp_warshall = new FloydWarshall<String>(g);
+        System.out.println(sp_warshall.getShortestPath("Hamburg", "München"));
+        System.out.println(sp_warshall.counter);
     }
 }

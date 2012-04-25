@@ -15,6 +15,7 @@ import org.jgrapht.Graphs;
 public class Dijkstra<V> {
     
     private final Graph g;
+    private final V source;
     
     private Set<V> done = new HashSet();
     private Set<V> remaining = new HashSet();
@@ -24,12 +25,31 @@ public class Dijkstra<V> {
 
     public int counter = 0;
     
-    public Dijkstra(Graph g)
+    public Dijkstra(Graph g, V source)
     {
         this.g = g;
+        this.source = source;
+        
+        calculateShortestPaths();
+    }
+    
+    
+    public List<V> getShortestPathToTarget(V target)
+    {
+        List<V> path = new LinkedList();
+        path.add(target);
+
+        V tmp = target;
+        while (this.predecessors.get(tmp) != null) 
+        {
+            tmp = this.predecessors.get(tmp);
+            path.add(0, tmp);
+        }
+
+        return path;
     }
 
-    public List<V> getShortestPath(V source, V target)
+    private void calculateShortestPaths()
     {
         clearState();
         this.remaining = new HashSet<V>(this.g.vertexSet());
@@ -37,7 +57,7 @@ public class Dijkstra<V> {
         for (V elem : this.remaining)
             this.distances.put(elem, Double.POSITIVE_INFINITY);
         
-        this.distances.put(source, 0d);
+        this.distances.put(this.source, 0d);
         
         while(!this.remaining.isEmpty())
         {
@@ -51,7 +71,6 @@ public class Dijkstra<V> {
             }
         }
 
-        return getPath(target);
     }
 
     private V getClosestVertex()
@@ -76,21 +95,6 @@ public class Dijkstra<V> {
             this.distances.put(target, alternative);
             this.predecessors.put(target, source);
         }
-    }
-    
-    private List<V> getPath(V target)
-    {
-        List<V> path = new LinkedList();
-        path.add(target);
-
-        V tmp = target;
-        while (this.predecessors.get(tmp) != null) 
-        {
-            tmp = this.predecessors.get(tmp);
-            path.add(0, tmp);
-        }
-
-        return path;
     }
 
     private void clearState() {
