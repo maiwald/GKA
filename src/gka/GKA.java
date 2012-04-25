@@ -9,9 +9,6 @@ import gka.pathfinders.FloydWarshall;
 import gka.traversers.DepthFirst;
 import gka.traversers.Traverser;
 import org.jgrapht.Graph;
-import org.jgrapht.Graphs;
-import org.jgrapht.graph.DefaultDirectedWeightedGraph;
-import org.jgrapht.graph.DefaultWeightedEdge;
 
 /**
  *
@@ -32,7 +29,7 @@ public class GKA {
     }
 
     public static void aufgabe_2() {
-        Graph g = (new GraphLoader("data/graph_04.graph.txt")).getGraph();
+        Graph g = (new GraphLoader("data/graph_06.graph.txt")).getGraph();
 
         Dijkstra sp_dijkstra = new Dijkstra<String>(g, "v2");
         System.out.println(sp_dijkstra.getShortestPathToTarget("v6"));
@@ -41,6 +38,11 @@ public class GKA {
         FloydWarshall sp_warshall = new FloydWarshall<String>(g);
         System.out.println(sp_warshall.getShortestPath("v2", "v6"));
         System.out.println(sp_warshall.counter);
+        
+        if (sp_warshall.isDisjunkt())
+            System.out.println("der Graph is nicht zusammenhängend.");
+        else
+            System.out.println("der Graph is zusammenhängend.");
         
         sp_warshall.printDMatrix();
         sp_warshall.printTMatrix();
