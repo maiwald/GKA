@@ -128,6 +128,17 @@ public class FloydWarshall<V>
         }
     }
     
+    public boolean isDisjunkt()
+    {
+        for (V i : this.vertices)
+            for (V j : this.vertices)
+                if (this.d.get(i).get(j) == Double.POSITIVE_INFINITY
+                        && this.d.get(j).get(i) == Double.POSITIVE_INFINITY)
+                    return true;
+                
+        return false;
+    }
+    
     public void printDMatrix()
     {
         System.out.println("D-Matrix");
