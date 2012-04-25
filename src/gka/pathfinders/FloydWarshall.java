@@ -20,22 +20,20 @@ public class FloydWarshall<V> {
     private final List<V> vertices;
     
     private Map<V, Map<V, Double>> d;
-    private Map<V, Map<V, Double>> t;
+    private Map<V, Map<V, V>> t;
 
     public FloydWarshall(Graph g)
     {
         this.g = g;
         this.vertices = (List<V>)Arrays.asList(g.vertexSet());
         
-        this.t = new HashMap<V, Map<V, Double>>();
+        this.t = new HashMap<V, Map<V, V>>();
         for (V row : this.vertices)
         {
-            this.t.put(row, new HashMap<V, Double>());
+            this.t.put(row, new HashMap<V, V>());
         
             for (V col : this.vertices)
-            {
-                this.t.get(row).put(col, 0d);
-            }
+                this.t.get(row).put(col, null);
         }
         
         this.d = new HashMap<V, Map<V, Double>>();
