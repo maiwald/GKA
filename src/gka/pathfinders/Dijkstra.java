@@ -48,7 +48,12 @@ public class Dijkstra<V> {
 
         return path;
     }
-
+    
+    public Double getlowestCostToTarget(V target)
+    {
+        return this.distances.get(target);
+    }
+    
     private void calculateShortestPaths()
     {
         this.remaining = new HashSet<V>(this.g.vertexSet());

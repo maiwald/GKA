@@ -117,6 +117,7 @@ public class FloydWarshall<V>
                     
                     if (this.d.get(i).get(i) < 0)
                     {
+                        System.out.println("Zyklische Ecke: " + i);
                         printDMatrix();
                         printTMatrix();
                         throw new NegativeCircleFoundException();
@@ -126,14 +127,14 @@ public class FloydWarshall<V>
         }
     }
     
-    public boolean isDisjunkt()
+    public boolean isStarkZusammenhaengend()
     {
         for (V i : this.vertices)
             for (V j : this.vertices)
                 if (this.d.get(i).get(j) == Double.POSITIVE_INFINITY
                         && this.d.get(j).get(i) == Double.POSITIVE_INFINITY)
                     return true;
-                
+
         return false;
     }
     

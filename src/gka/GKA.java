@@ -29,21 +29,26 @@ public class GKA {
     }
 
     public static void aufgabe_2() {
-        Graph g = (new GraphLoader("data/graph_06.graph.txt")).getGraph();
+        Graph g = (new GraphLoader("data/graph_05.graph.txt")).getGraph();
 
-        Dijkstra sp_dijkstra = new Dijkstra<String>(g, "v2");
-        System.out.println(sp_dijkstra.getShortestPathToTarget("v6"));
-        System.out.println(sp_dijkstra.counter);
-
+        Dijkstra sp_dijkstra = new Dijkstra<String>(g, "v1");
+        System.out.println("## Dijkstra");
+        System.out.println("Kürzester Weg: " + sp_dijkstra.getShortestPathToTarget("v9"));
+        System.out.println("Kosten: " + sp_dijkstra.getlowestCostToTarget("v9"));
+        System.out.println("Vergleiche mit Veränderung:" + sp_dijkstra.counter);
+        System.out.println();
+        
+        
+        System.out.println("## Floyd-Warshall");
         FloydWarshall sp_warshall = new FloydWarshall<String>(g);
-        System.out.println(sp_warshall.getShortestPath("v2", "v6"));
+        System.out.println("Kürzester Weg: " + sp_warshall.getShortestPath("v1", "v9"));
         
-        if (sp_warshall.isDisjunkt())
-            System.out.println("der Graph is nicht zusammenhängend.");
+        if (sp_warshall.isStarkZusammenhaengend())
+            System.out.println("der Graph ist nicht stark zusammenhängend.");
         else
-            System.out.println("der Graph is zusammenhängend.");
+            System.out.println("der Graph ist stark zusammenhängend.");
         
-        sp_warshall.printDMatrix();
-        sp_warshall.printTMatrix();
+        // sp_warshall.printDMatrix();
+        // sp_warshall.printTMatrix();
     }
 }
