@@ -31,7 +31,6 @@ public class Dijkstra<V> {
         this.g = g;
         this.source = source;
 
-        clearState();
         calculateShortestPaths();
     }
     
@@ -115,11 +114,4 @@ public class Dijkstra<V> {
         
         return neighbors;
     }
-    
-    private void clearState() {
-        this.distances.clear();
-        this.predecessors.clear();
-
-        this.counter = 0;
-    }            
 }
