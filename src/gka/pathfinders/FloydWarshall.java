@@ -14,11 +14,11 @@ import org.jgrapht.Graph;
  *
  * @author maiwald
  */
-public class FloydWarshall<V> {
-
+public class FloydWarshall<V>
+{
     private final Graph g;
     private final List<V> vertices;
-    
+
     private Map<V, Map<V, Double>> d;
     private Map<V, Map<V, V>> t;
 
@@ -26,16 +26,13 @@ public class FloydWarshall<V> {
     {
         this.g = g;
         this.vertices = (List<V>)Arrays.asList(g.vertexSet());
-        
-        this.t = new HashMap<V, Map<V, V>>();
-        for (V row : this.vertices)
-        {
-            this.t.put(row, new HashMap<V, V>());
-        
-            for (V col : this.vertices)
-                this.t.get(row).put(col, null);
-        }
-        
+
+        initializeDMatrix();
+        initializeTMatrix();
+    }
+
+    private void initializeDMatrix()
+    {
         this.d = new HashMap<V, Map<V, Double>>();
         for (V row : this.vertices)
         {
@@ -47,16 +44,27 @@ public class FloydWarshall<V> {
                 
                 if (col.equals(row))
                     value = 0d;
-                
+
                 else if (this.g.getEdge(row, col) != null)
                     value = this.g.getEdgeWeight(this.g.getEdge(row, col));
-                    
+
                 else
                     value = Double.POSITIVE_INFINITY;
-                
+
                 this.d.get(row).put(col, value);
             }
         }
-      
+    }
+
+    private void initializeTMatrix()
+    {
+        this.t = new HashMap<V, Map<V, V>>();
+        for (V row : this.vertices)
+        {
+            this.t.put(row, new HashMap<V, V>());
+        
+            for (V col : this.vertices)
+                this.t.get(row).put(col, null);
+        }
     }
 }
