@@ -49,17 +49,11 @@ public class FloydWarshall<V>
         }
         else
         {   
-            result.addAll(0, getShortestPath(intermediate, target));
-            result.addAll(0, getShortestPath(source, intermediate));
-
-            List<V> temp = new LinkedList();
-            for (V step : result)
-            {
-                if (!temp.contains(step))
-                    temp.add(step);
-            }
-
-            result = temp;
+            result.addAll(getShortestPath(source, intermediate));
+            
+            List<V> temp = getShortestPath(intermediate, target);
+            temp.remove(0);
+            result.addAll(temp);
         }
 
         return result;
