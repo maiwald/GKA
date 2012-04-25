@@ -35,7 +35,7 @@ public class GKA {
         System.out.println("## Dijkstra");
         System.out.println("Kürzester Weg: " + sp_dijkstra.getShortestPathToTarget("v9"));
         System.out.println("Kosten: " + sp_dijkstra.getlowestCostToTarget("v9"));
-        System.out.println("Vergleiche mit Veränderung:" + sp_dijkstra.counter);
+        System.out.println("Vergleiche:" + sp_dijkstra.counter);
         System.out.println();
 
 
