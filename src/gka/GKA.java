@@ -37,7 +37,6 @@ public class GKA {
 
         FloydWarshall sp_warshall = new FloydWarshall<String>(g);
         System.out.println(sp_warshall.getShortestPath("v2", "v6"));
-        System.out.println(sp_warshall.counter);
         
         if (sp_warshall.isDisjunkt())
             System.out.println("der Graph is nicht zusammenhängend.");

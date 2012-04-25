@@ -19,8 +19,6 @@ public class FloydWarshall<V>
     private Map<V, Map<V, Double>> d;
     private Map<V, Map<V, V>> t;
 
-    public int counter = 0;
-
     public static class NegativeCircleFoundException extends RuntimeException
     {};
 
