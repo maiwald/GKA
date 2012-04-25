@@ -18,14 +18,14 @@ public class Dijkstra<V> {
     
     private final Graph g;
     private final V source;
-    
+
     private Set<V> remaining = new HashSet();
 
     private Map<V,Double> distances = new HashMap();
     private Map<V,V> predecessors = new HashMap();
 
     public int counter = 0;
-    
+
     public Dijkstra(Graph g, V source)
     {
         this.g = g;
@@ -33,7 +33,7 @@ public class Dijkstra<V> {
 
         calculateShortestPaths();
     }
-    
+
     public List<V> getShortestPathToTarget(V target)
     {
         List<V> path = new LinkedList();
@@ -48,34 +48,33 @@ public class Dijkstra<V> {
 
         return path;
     }
-    
+
     public Double getlowestCostToTarget(V target)
     {
         return this.distances.get(target);
     }
-    
+
     private void calculateShortestPaths()
     {
         this.remaining = new HashSet<V>(this.g.vertexSet());
 
         for (V elem : this.remaining)
             this.distances.put(elem, Double.POSITIVE_INFINITY);
-        
+
         this.distances.put(this.source, 0d);
-        
+
         while(!this.remaining.isEmpty())
         {
             V closest = getClosestVertex();
             List<V> neighbors = getNeighbors(closest);
             this.remaining.remove(closest);
-            
+
             for (V neighbor : neighbors)
             {
                 if (this.remaining.contains(neighbor))
                     updateDistance(closest, neighbor);
             }
         }
-
     }
 
     private V getClosestVertex()
@@ -91,7 +90,7 @@ public class Dijkstra<V> {
     private void updateDistance(V source, V target)
     {
         this.counter++;
-        
+
         double alternative = this.distances.get(source) + 
                 this.g.getEdgeWeight(this.g.getEdge(source, target));
 
@@ -116,7 +115,7 @@ public class Dijkstra<V> {
         {
             neighbors = (List<V>)Graphs.neighborListOf(this.g, vertex);
         }
-        
+
         return neighbors;
     }
 }

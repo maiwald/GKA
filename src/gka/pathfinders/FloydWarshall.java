@@ -48,7 +48,7 @@ public class FloydWarshall<V>
         else
         {   
             result.addAll(getShortestPath(source, intermediate));
-            
+
             List<V> temp = getShortestPath(intermediate, target);
             temp.remove(0);
             result.addAll(temp);
@@ -114,7 +114,7 @@ public class FloydWarshall<V>
                             }
                         }
                     }
-                    
+
                     if (this.d.get(i).get(i) < 0)
                     {
                         System.out.println("Zyklische Ecke: " + i);
@@ -126,7 +126,7 @@ public class FloydWarshall<V>
             }
         }
     }
-    
+
     public boolean isStarkZusammenhaengend()
     {
         for (V i : this.vertices)
@@ -137,7 +137,7 @@ public class FloydWarshall<V>
 
         return false;
     }
-    
+
     public void printDMatrix()
     {
         System.out.println("D-Matrix");
@@ -145,7 +145,7 @@ public class FloydWarshall<V>
             for (V j : this.vertices)
                 System.out.println(String.format("%s,%s : %s", i, j, this.d.get(i).get(j)));
     }
-    
+
     public void printTMatrix()
     {
         System.out.println("T-Matrix");
