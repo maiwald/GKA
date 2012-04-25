@@ -5,8 +5,8 @@
 package gka;
 
 import gka.pathfinders.Dijkstra;
-import gka.traversers.Traverser;
 import gka.traversers.DepthFirst;
+import gka.traversers.Traverser;
 import org.jgrapht.Graph;
 
 /**
