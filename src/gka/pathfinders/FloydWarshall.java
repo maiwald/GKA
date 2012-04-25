@@ -117,8 +117,10 @@ public class FloydWarshall<V>
                         }
                     }
                     
-                    if (this.d.get(i).get(j) < 0)
+                    if (this.d.get(i).get(i) < 0)
+                    {
                         throw new NegativeCircleFoundException();
+                    }
                 }
             }
         }
