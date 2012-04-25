@@ -4,10 +4,7 @@
  */
 package gka.pathfinders;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.jgrapht.Graph;
 
 /**
@@ -23,19 +20,49 @@ public class FloydWarshall<V>
     private Map<V, Map<V, V>> t;
 
     public int counter = 0;
+    
+    static class NegativeCircleFoundException extends RuntimeException
+    {};
 
     public FloydWarshall(Graph g)
     {
         this.g = g;
-        this.vertices = (List<V>)Arrays.asList(g.vertexSet());
+        this.vertices = new ArrayList<V>(g.vertexSet());
 
         initializeDMatrix();
         initializeTMatrix();
+        calculateShortestPaths();
     }
     
     public List<V> getShortestPath(V source, V target)
     {
-        return null;
+        if (this.d.get(source).get(target) == Double.POSITIVE_INFINITY)
+            return null;
+        
+        V intermediate = this.t.get(source).get(target);
+        List<V> result = new LinkedList();
+                    
+        if (intermediate == null)
+        {
+            result.add(0, target);
+            result.add(0, source);
+        }
+        else
+        {   
+            result.addAll(0, getShortestPath(intermediate, target));
+            result.addAll(0, getShortestPath(source, intermediate));
+            
+            List<V> temp = new LinkedList();
+            for (V step : result)
+            {
+                if (!temp.contains(step))
+                    temp.add(step);
+            }
+            
+            result = temp;
+        }
+        
+        return result;
     }
 
     private void initializeDMatrix()
@@ -48,7 +75,7 @@ public class FloydWarshall<V>
             for (V col : this.vertices)
             {
                 Double value = null;
-                
+
                 if (col.equals(row))
                     value = 0d;
 
@@ -69,7 +96,7 @@ public class FloydWarshall<V>
         for (V row : this.vertices)
         {
             this.t.put(row, new HashMap<V, V>());
-        
+
             for (V col : this.vertices)
                 this.t.get(row).put(col, null);
         }
@@ -77,6 +104,29 @@ public class FloydWarshall<V>
     
     private void calculateShortestPaths()
     {
-        
+        for (V j : this.vertices)
+        {
+            for (V i : this.vertices)
+            {
+                if (!i.equals(j))
+                {
+                    for (V k : this.vertices)
+                    {
+                        if (!k.equals(j))
+                        {
+                            Double new_value = this.d.get(i).get(j) + this.d.get(j).get(k);
+                            if (new_value < this.d.get(i).get(k))
+                            {
+                                this.d.get(i).put(k, new_value);
+                                this.t.get(i).put(k, j);
+                            }
+                        }
+                    }
+                    
+                    if (this.d.get(i).get(j) < 0)
+                        throw new NegativeCircleFoundException();
+                }
+            }
+        }
     }
 }

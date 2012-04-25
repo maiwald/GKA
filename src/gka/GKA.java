@@ -36,6 +36,5 @@ public class GKA {
 
         FloydWarshall sp_warshall = new FloydWarshall<String>(g);
         System.out.println(sp_warshall.getShortestPath("Hamburg", "München"));
-        System.out.println(sp_warshall.counter);
     }
 }
