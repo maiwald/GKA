@@ -38,7 +38,6 @@ public class GKA {
         System.out.println("Vergleiche:" + sp_dijkstra.counter);
         System.out.println();
 
-
         System.out.println("## Floyd-Warshall");
         FloydWarshall sp_warshall = new FloydWarshall<String>(g);
         System.out.println("Kürzester Weg: " + sp_warshall.getShortestPath("v1", "v9"));
