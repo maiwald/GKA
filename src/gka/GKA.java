@@ -37,17 +37,17 @@ public class GKA {
         System.out.println("Kosten: " + sp_dijkstra.getlowestCostToTarget("v9"));
         System.out.println("Vergleiche mit Veränderung:" + sp_dijkstra.counter);
         System.out.println();
-        
-        
+
+
         System.out.println("## Floyd-Warshall");
         FloydWarshall sp_warshall = new FloydWarshall<String>(g);
         System.out.println("Kürzester Weg: " + sp_warshall.getShortestPath("v1", "v9"));
-        
+
         if (sp_warshall.isStarkZusammenhaengend())
             System.out.println("der Graph ist nicht stark zusammenhängend.");
         else
             System.out.println("der Graph ist stark zusammenhängend.");
-        
+
         // sp_warshall.printDMatrix();
         // sp_warshall.printTMatrix();
     }
