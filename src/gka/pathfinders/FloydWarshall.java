@@ -20,7 +20,7 @@ public class FloydWarshall<V>
     private Map<V, Map<V, V>> t;
 
     public int counter = 0;
-    
+
     static class NegativeCircleFoundException extends RuntimeException
     {};
 
@@ -33,15 +33,15 @@ public class FloydWarshall<V>
         initializeTMatrix();
         calculateShortestPaths();
     }
-    
+
     public List<V> getShortestPath(V source, V target)
     {
         if (this.d.get(source).get(target) == Double.POSITIVE_INFINITY)
             return null;
-        
+
         V intermediate = this.t.get(source).get(target);
         List<V> result = new LinkedList();
-                    
+
         if (intermediate == null)
         {
             result.add(0, target);
@@ -51,17 +51,17 @@ public class FloydWarshall<V>
         {   
             result.addAll(0, getShortestPath(intermediate, target));
             result.addAll(0, getShortestPath(source, intermediate));
-            
+
             List<V> temp = new LinkedList();
             for (V step : result)
             {
                 if (!temp.contains(step))
                     temp.add(step);
             }
-            
+
             result = temp;
         }
-        
+
         return result;
     }
 
@@ -71,7 +71,7 @@ public class FloydWarshall<V>
         for (V row : this.vertices)
         {
             this.d.put(row, new HashMap<V, Double>());
-        
+
             for (V col : this.vertices)
             {
                 Double value = null;
@@ -101,7 +101,7 @@ public class FloydWarshall<V>
                 this.t.get(row).put(col, null);
         }
     }
-    
+
     private void calculateShortestPaths()
     {
         for (V j : this.vertices)
