@@ -5,8 +5,10 @@
 package gka.pathfinders;
 
 import java.util.*;
+import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
+import org.jgrapht.graph.DefaultEdge;
 
 /**
  *
@@ -61,9 +63,10 @@ public class Dijkstra<V> {
         while(!this.remaining.isEmpty())
         {
             V closest = getClosestVertex();
+            List<V> neighbors = getNeighbors(closest);
             this.remaining.remove(closest);
             
-            for (V neighbor : (List<V>)Graphs.neighborListOf(this.g, closest))
+            for (V neighbor : neighbors)
             {
                 if (this.remaining.contains(neighbor))
                     updateDistance(closest, neighbor);
@@ -96,6 +99,24 @@ public class Dijkstra<V> {
         }
     }
 
+    private List<V> getNeighbors(V vertex)
+    {
+        List<V> neighbors = new ArrayList();
+
+        if (this.g instanceof DirectedGraph)
+        {
+            Set<DefaultEdge> edges = (((DirectedGraph)this.g).outgoingEdgesOf(vertex));
+            for (DefaultEdge e : edges)
+                neighbors.add((V)this.g.getEdgeTarget(e));
+        }
+        else
+        {
+            neighbors = (List<V>)Graphs.neighborListOf(this.g, vertex);
+        }
+        
+        return neighbors;
+    }
+    
     private void clearState() {
         this.distances.clear();
         this.predecessors.clear();
