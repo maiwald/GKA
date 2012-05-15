@@ -98,7 +98,6 @@ public class FordFulkersonFlow<V>
         }
 
         return calculateFlow();
-
     }
 
     private void inspectAndMark()
@@ -157,7 +156,7 @@ public class FordFulkersonFlow<V>
 
         resetMarkers();
     }
-    
+
     private double calculateFlow()
     {
         V vertex = this.s;
@@ -172,8 +171,7 @@ public class FordFulkersonFlow<V>
             {
                 DefaultWeightedEdge edge = this.g.getEdge(predecessor, vertex);
                 result = Math.min(result, this.g.getEdgeWeight(edge));
-            }
-            else
+            } else
             {
                 DefaultWeightedEdge edge = this.g.getEdge(vertex, predecessor);
                 result = Math.min(result, this.g.getEdgeWeight(edge));
@@ -181,7 +179,7 @@ public class FordFulkersonFlow<V>
 
             vertex = predecessor;
         }
-        
+
         return result;
     }
 
