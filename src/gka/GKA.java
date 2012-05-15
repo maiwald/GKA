@@ -4,10 +4,12 @@
  */
 package gka;
 
+import gka.flows.FordFulkersonFlow;
 import gka.pathfinders.Dijkstra;
 import gka.pathfinders.FloydWarshall;
 import gka.traversers.DepthFirst;
 import gka.traversers.Traverser;
+import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
 
 /**
@@ -17,7 +19,7 @@ import org.jgrapht.Graph;
 public class GKA {
 
     public static void main(String[] args) {
-        aufgabe_2();
+        aufgabe_3();
     }
 
     public static void aufgabe_1() {
@@ -49,5 +51,12 @@ public class GKA {
 
         // sp_warshall.printDMatrix();
         // sp_warshall.printTMatrix();
+    }
+    
+    public static void aufgabe_3() {
+        DirectedGraph g = (DirectedGraph)(new GraphLoader("data/buch.graph")).getGraph();
+        
+        FordFulkersonFlow<String> f = new FordFulkersonFlow(g);
+        System.out.printf("%f", f.getMaximumFlow("q", "s"));
     }
 }
