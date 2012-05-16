@@ -95,7 +95,7 @@ public class EdmondsKarpFlow<V> extends FordFulkersonFlow<V>
                 DefaultWeightedEdge forward = (DefaultWeightedEdge) converted.addEdge(source, target);
                 this.g.setEdgeWeight(forward, this.g.getEdgeWeight(edge) - this.f.get(edge));
 
-                if (this.f.get(edge) != 0)
+                if (this.f.get(edge) > 0)
                 {
                     DefaultWeightedEdge backward = (DefaultWeightedEdge) converted.addEdge(target, source);
                     this.g.setEdgeWeight(backward, this.f.get(edge));
