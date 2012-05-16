@@ -63,12 +63,15 @@ public class GKA
 
     public static void aufgabe_3()
     {
-        DirectedGraph g = (DirectedGraph) (new GraphLoader("data/buch.graph")).getGraph();
+        DirectedGraph g = (DirectedGraph) (new GraphLoader("data/graph_08.graph")).getGraph();
 
+        System.out.println("Ford Fulkerson");
         FordFulkersonFlow<String> ff = new FordFulkersonFlow(g);
-        System.out.printf("%f\n", ff.getMaximumFlow("q", "s"));
+        System.out.printf("%f\n", ff.getMaximumFlow("Hamburg", "München"));
+        System.out.println();
         
+        System.out.println("Edmonds Karp");
         FordFulkersonFlow<String> ek = new EdmondsKarpFlow(g);
-        System.out.printf("%f\n", ek.getMaximumFlow("q", "s"));
+        System.out.printf("%f\n", ek.getMaximumFlow("Hamburg", "München"));
     }
 }
