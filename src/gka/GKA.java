@@ -65,7 +65,10 @@ public class GKA
     {
         DirectedGraph g = (DirectedGraph) (new GraphLoader("data/buch.graph")).getGraph();
 
-        FordFulkersonFlow<String> f = new EdmondsKarpFlow(g);
-        System.out.printf("%f", f.getMaximumFlow("q", "s"));
+        FordFulkersonFlow<String> ff = new FordFulkersonFlow(g);
+        System.out.printf("%f\n", ff.getMaximumFlow("q", "s"));
+        
+        FordFulkersonFlow<String> ek = new EdmondsKarpFlow(g);
+        System.out.printf("%f\n", ek.getMaximumFlow("q", "s"));
     }
 }
