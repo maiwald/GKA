@@ -20,7 +20,7 @@ public class FordFulkersonFlow<V>
     protected V q;
     protected V s;
 
-    private Map<V, Marker> markers;
+    private Map<V, Marker> marked;
 
     private class Marker
     {
@@ -111,7 +111,7 @@ public class FordFulkersonFlow<V>
 
     protected boolean areAllMarkedEdgesInspected()
     {
-        for (Marker m : this.markers.values())
+        for (Marker m : this.marked.values())
         {
             if (!m.isInspected())
             {
@@ -125,7 +125,7 @@ public class FordFulkersonFlow<V>
     protected void inspectAndMark()
     {
         V current_vertex = getNextUninspectedVertex();
-        Marker current_marker = this.markers.get(current_vertex);
+        Marker current_marker = this.marked.get(current_vertex);
         current_marker.setInspected();
 
         for (DefaultWeightedEdge edge : this.g.outgoingEdgesOf(current_vertex))
@@ -136,7 +136,7 @@ public class FordFulkersonFlow<V>
                 Marker marker = new Marker(current_vertex,
                         Math.min(current_marker.getCapacity(), this.g.getEdgeWeight(edge) - this.f.get(edge)));
                 marker.setForward();
-                this.markers.put(target, marker);
+                this.marked.put(target, marker);
             }
         }
 
@@ -147,16 +147,16 @@ public class FordFulkersonFlow<V>
             {
                 Marker marker = new Marker(current_vertex, Math.min(current_marker.getCapacity(), this.f.get(edge)));
                 marker.setBackward();
-                this.markers.put(source, marker);
+                this.marked.put(source, marker);
             }
         }
     }
 
     protected V getNextUninspectedVertex()
     {
-        for (V vertex : this.markers.keySet())
+        for (V vertex : this.marked.keySet())
         {
-            if (!this.markers.get(vertex).isInspected())
+            if (!this.marked.get(vertex).isInspected())
             {
                 return vertex;
             }
@@ -172,17 +172,17 @@ public class FordFulkersonFlow<V>
 
     protected boolean isVertexMarked(V vertex)
     {
-        return this.markers.get(vertex) != null;
+        return this.marked.get(vertex) != null;
     }
 
     protected void widenFlow()
     {
         V vertex = this.s;
-        Marker s_marker = this.markers.get(this.s);
+        Marker s_marker = this.marked.get(this.s);
 
         while (!vertex.equals(this.q))
         {
-            Marker marker = this.markers.get(vertex);
+            Marker marker = this.marked.get(vertex);
             V predecessor = marker.getPredecessor();
 
             if (marker.isForward())
@@ -263,13 +263,12 @@ public class FordFulkersonFlow<V>
 
     protected void resetForNextRun()
     {
-        this.markers = new HashMap<V, Marker>();
-        this.markers.put(q, new Marker());
+        this.marked = new HashMap<V, Marker>();
+        this.marked.put(q, new Marker());
         afterResetHook();
     }
     
     protected void afterResetHook()
     {
-        
     }
 }
