@@ -4,9 +4,7 @@
  */
 package gka.flows;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
@@ -88,12 +86,14 @@ public class FordFulkersonFlow<V>
 
         while (!areAllMarkedEdgesInspected())
         {
+
+
             inspectAndMark();
 
             if (isVertexMarked(this.s))
             {
-                System.out.println(this.f);
                 widenFlow();
+                resetMarkers();
             }
         }
 
@@ -173,10 +173,13 @@ public class FordFulkersonFlow<V>
     {
         V vertex = this.s;
         Marker s_marker = this.markers.get(this.s);
+
         while (vertex != this.q)
         {
             Marker marker = this.markers.get(vertex);
             V predecessor = marker.predecessor;
+
+            System.out.printf("%s, ", vertex);
 
             if (marker.isForward())
             {
@@ -191,33 +194,57 @@ public class FordFulkersonFlow<V>
             vertex = predecessor;
         }
 
-        resetMarkers();
+        System.out.printf("%s\n", this.q);
+        System.err.println(this.f);
     }
 
     private double calculateFlow()
     {
-        V vertex = this.s;
         Double result = Double.POSITIVE_INFINITY;
 
-        while (vertex != this.q)
-        {
-            Marker marker = this.markers.get(vertex);
-            V predecessor = marker.predecessor;
+        Set<V> q_set = new HashSet();
+        q_set.add(this.q);
 
-            if (marker.isForward())
+        Set<V> s_set = new HashSet();
+        s_set.add(this.s);
+
+        Random r = new Random();
+
+        Set<V> rest = new HashSet(this.g.vertexSet());
+        rest.removeAll(Arrays.asList(this.q, this.s));
+
+        for (V vertex : rest)
+        {
+            if (r.nextBoolean())
             {
-                DefaultWeightedEdge edge = this.g.getEdge(predecessor, vertex);
-                result = Math.min(result, this.g.getEdgeWeight(edge));
+                q_set.add(vertex);
             } else
             {
-                DefaultWeightedEdge edge = this.g.getEdge(vertex, predecessor);
-                result = Math.min(result, this.g.getEdgeWeight(edge));
+                s_set.add(vertex);
             }
-
-            vertex = predecessor;
+        }
+        
+        double outgoing_value = 0;
+        for (V vertex : q_set)
+        {
+            for (DefaultWeightedEdge e : this.g.outgoingEdgesOf(vertex))
+            {
+                if (!q_set.contains(this.g.getEdgeTarget(e)))
+                    outgoing_value += this.f.get(e);
+            }
         }
 
-        return result;
+        double incoming_value = 0;
+        for (V vertex : q_set)
+        {
+            for (DefaultWeightedEdge e : this.g.incomingEdgesOf(vertex))
+            {
+                if (!q_set.contains(this.g.getEdgeSource(e)))
+                    incoming_value += this.f.get(e);
+            }
+        }
+
+        return outgoing_value - incoming_value;
     }
 
     private void initialize()
