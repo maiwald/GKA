@@ -205,8 +205,6 @@ public class FordFulkersonFlow<V>
 
     private double calculateFlow()
     {
-        Double result = Double.POSITIVE_INFINITY;
-
         Set<V> q_set = new HashSet();
         q_set.add(this.q);
 
