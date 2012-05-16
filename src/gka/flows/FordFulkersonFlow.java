@@ -4,8 +4,11 @@
  */
 package gka.flows;
 
-import java.util.*;
-import org.jgrapht.DirectedGraph;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 /**
@@ -15,7 +18,7 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 public class FordFulkersonFlow<V>
 {
 
-    protected DirectedGraph<V, DefaultWeightedEdge> g;
+    protected DefaultDirectedWeightedGraph<V, DefaultWeightedEdge> g;
     protected Map<DefaultWeightedEdge, Double> f;
     protected V q;
     protected V s;
@@ -26,7 +29,7 @@ public class FordFulkersonFlow<V>
     {
 
         private V predecessor;
-        private double capacity;
+        private double increment;
         private boolean inspected;
         private boolean forward;
 
@@ -35,10 +38,10 @@ public class FordFulkersonFlow<V>
             this(null, Double.POSITIVE_INFINITY);
         }
 
-        public Marker(V predecessor, Double capacity)
+        public Marker(V predecessor, Double increment)
         {
             this.predecessor = predecessor;
-            this.capacity = capacity;
+            this.increment = increment;
             this.inspected = false;
         }
         
@@ -47,9 +50,9 @@ public class FordFulkersonFlow<V>
             return this.predecessor;
         }
         
-        public double getCapacity()
+        public double getIncrement()
         {
-            return this.capacity;
+            return this.increment;
         }
 
         public boolean isForward()
@@ -83,7 +86,7 @@ public class FordFulkersonFlow<V>
         }
     }
 
-    public FordFulkersonFlow(DirectedGraph<V, DefaultWeightedEdge> g)
+    public FordFulkersonFlow(DefaultDirectedWeightedGraph<V, DefaultWeightedEdge> g)
     {
         this.g = g;
     }
@@ -134,7 +137,7 @@ public class FordFulkersonFlow<V>
             if (!isVertexMarked(target) && hasSufficientCapacity(edge))
             {
                 Marker marker = new Marker(current_vertex,
-                        Math.min(current_marker.getCapacity(), this.g.getEdgeWeight(edge) - this.f.get(edge)));
+                        Math.min(current_marker.getIncrement(), this.g.getEdgeWeight(edge) - this.f.get(edge)));
                 marker.setForward();
                 this.marked.put(target, marker);
             }
@@ -145,7 +148,7 @@ public class FordFulkersonFlow<V>
             V source = this.g.getEdgeSource(edge);
             if (!isVertexMarked(source) && this.f.get(edge) > 0)
             {
-                Marker marker = new Marker(current_vertex, Math.min(current_marker.getCapacity(), this.f.get(edge)));
+                Marker marker = new Marker(current_vertex, Math.min(current_marker.getIncrement(), this.f.get(edge)));
                 marker.setBackward();
                 this.marked.put(source, marker);
             }
@@ -165,7 +168,7 @@ public class FordFulkersonFlow<V>
         return null;
     }
 
-    private boolean hasSufficientCapacity(DefaultWeightedEdge edge)
+    protected boolean hasSufficientCapacity(DefaultWeightedEdge edge)
     {
         return this.f.get(edge) < this.g.getEdgeWeight(edge);
     }
@@ -180,48 +183,37 @@ public class FordFulkersonFlow<V>
         V vertex = this.s;
         Marker s_marker = this.marked.get(this.s);
 
+        if (this.getClass() == FordFulkersonFlow.class)
+            System.out.print("[");
+        
         while (!vertex.equals(this.q))
         {
             Marker marker = this.marked.get(vertex);
             V predecessor = marker.getPredecessor();
 
+            if (this.getClass() == FordFulkersonFlow.class)
+                System.out.printf("%s, ", vertex);
+            
             if (marker.isForward())
             {
                 DefaultWeightedEdge edge = this.g.getEdge(predecessor, vertex);
-                this.f.put(edge, this.f.get(edge) + s_marker.getCapacity());
+                this.f.put(edge, this.f.get(edge) + s_marker.getIncrement());
             } else
             {
                 DefaultWeightedEdge edge = this.g.getEdge(predecessor, vertex);
-                this.f.put(edge, this.f.get(edge) - s_marker.getCapacity());
+                this.f.put(edge, this.f.get(edge) - s_marker.getIncrement());
             }
 
             vertex = predecessor;
         }
+        
+        if (this.getClass() == FordFulkersonFlow.class)
+            System.out.printf("%s]\n", vertex);
     }
-
+    
     protected double calculateFlow()
     {
-        Set<V> q_set = new HashSet();
-        q_set.add(this.q);
-
-        Set<V> s_set = new HashSet();
-        s_set.add(this.s);
-
-        Random r = new Random();
-
-        Set<V> rest = new HashSet(this.g.vertexSet());
-        rest.removeAll(Arrays.asList(this.q, this.s));
-
-        for (V vertex : rest)
-        {
-            if (r.nextBoolean())
-            {
-                q_set.add(vertex);
-            } else
-            {
-                s_set.add(vertex);
-            }
-        }
+        Set<V> q_set = new HashSet(this.marked.keySet());
 
         double outgoing_value = 0;
         for (V vertex : q_set)

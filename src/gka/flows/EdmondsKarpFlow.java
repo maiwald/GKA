@@ -9,7 +9,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
+import org.jgrapht.WeightedGraph;
 import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
@@ -22,7 +24,7 @@ public class EdmondsKarpFlow<V> extends FordFulkersonFlow<V>
 
     private Queue<V> queue;
 
-    public EdmondsKarpFlow(DirectedGraph<V, DefaultWeightedEdge> g)
+    public EdmondsKarpFlow(DefaultDirectedWeightedGraph<V, DefaultWeightedEdge> g)
     {
         super(g);
         this.queue = new LinkedList();
@@ -69,13 +71,14 @@ public class EdmondsKarpFlow<V> extends FordFulkersonFlow<V>
         {
             Graph converted_graph = getConvertedGraph();
             Dijkstra d = new Dijkstra<V>(converted_graph, this.q);
+            System.out.println(d.getShortestPathToTarget(this.s));
             this.queue.addAll(d.getShortestPathToTarget(this.s));
         }
     }
 
     private Graph getConvertedGraph()
     {
-        Graph converted = new DefaultDirectedGraph(DefaultEdge.class);
+        DefaultDirectedWeightedGraph converted = new DefaultDirectedWeightedGraph(DefaultWeightedEdge.class);
 
         for (V vertex : this.g.vertexSet())
         {
@@ -84,11 +87,19 @@ public class EdmondsKarpFlow<V> extends FordFulkersonFlow<V>
 
         for (DefaultWeightedEdge edge : this.g.edgeSet())
         {
-            if (this.f.get(edge) < this.g.getEdgeWeight(edge))
+            if (hasSufficientCapacity(edge))
             {
                 V source = this.g.getEdgeSource(edge);
                 V target = this.g.getEdgeTarget(edge);
-                converted.addEdge(source, target);
+
+                DefaultWeightedEdge forward = (DefaultWeightedEdge) converted.addEdge(source, target);
+                this.g.setEdgeWeight(forward, this.g.getEdgeWeight(edge) - this.f.get(edge));
+
+                if (this.f.get(edge) != 0)
+                {
+                    DefaultWeightedEdge backward = (DefaultWeightedEdge) converted.addEdge(target, source);
+                    this.g.setEdgeWeight(backward, this.f.get(edge));
+                }
             }
         }
 

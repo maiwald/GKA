@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import org.jgrapht.Graph;
 import org.jgrapht.WeightedGraph;
+import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.ListenableDirectedWeightedGraph;
 import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
@@ -42,7 +43,7 @@ public class GraphLoader {      //Für das einlesen von Graphen aus Dateien
                     throw new RuntimeException("erste Zeile falsches Format!");
 
                 if (line.substring(1).equals("gerichtet")) {                            
-                    g = new ListenableDirectedWeightedGraph(DefaultWeightedEdge.class);
+                    g = new DefaultDirectedWeightedGraph(DefaultWeightedEdge.class);
                 }
                 else if (line.substring(1).equals("ungerichtet")) {
                     g = new ListenableUndirectedWeightedGraph(DefaultWeightedEdge.class);

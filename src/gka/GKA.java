@@ -12,6 +12,7 @@ import gka.traversers.DepthFirst;
 import gka.traversers.Traverser;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 /**
  *
@@ -63,7 +64,7 @@ public class GKA
 
     public static void aufgabe_3()
     {
-        DirectedGraph g = (DirectedGraph) (new GraphLoader("data/graph_08.graph")).getGraph();
+        DefaultDirectedWeightedGraph g = (DefaultDirectedWeightedGraph) (new GraphLoader("data/graph_08.graph")).getGraph();
 
         System.out.println("Ford Fulkerson");
         FordFulkersonFlow<String> ff = new FordFulkersonFlow(g);
