@@ -10,7 +10,6 @@ import gka.pathfinders.Dijkstra;
 import gka.pathfinders.FloydWarshall;
 import gka.traversers.DepthFirst;
 import gka.traversers.Traverser;
-import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
