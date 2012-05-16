@@ -100,9 +100,22 @@ public class FordFulkersonFlow<V>
         return calculateFlow();
     }
 
+    private boolean areAllMarkedEdgesInspected()
+    {
+        for (Marker m : this.markers.values())
+        {
+            if (!m.isInspected())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private void inspectAndMark()
     {
-        V current_vertex = getNextInspectedVertex();
+        V current_vertex = getNextUninspectedVertex();
         Marker current_marker = this.markers.get(current_vertex);
         current_marker.setInspected();
 
@@ -125,11 +138,35 @@ public class FordFulkersonFlow<V>
             V source = this.g.getEdgeSource(edge);
             if (!isVertexMarked(source) && this.f.get(edge) > 0)
             {
-                Marker marker = new Marker(current_vertex, Math.min(current_marker.capacity, this.f.get(edge)));
+                DefaultWeightedEdge opposing_edge = this.g.getEdge(source, current_vertex);
+                Marker marker = new Marker(current_vertex, Math.min(current_marker.capacity, this.f.get(opposing_edge)));
                 marker.setBackward();
                 this.markers.put(source, marker);
             }
         }
+    }
+
+    private V getNextUninspectedVertex()
+    {
+        for (V vertex : this.markers.keySet())
+        {
+            if (!this.markers.get(vertex).isInspected())
+            {
+                return vertex;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean hasSufficientCapacity(DefaultWeightedEdge edge)
+    {
+        return this.f.get(edge) < this.g.getEdgeWeight(edge);
+    }
+
+    private boolean isVertexMarked(V vertex)
+    {
+        return this.markers.get(vertex) != null;
     }
 
     private void widenFlow()
@@ -181,42 +218,6 @@ public class FordFulkersonFlow<V>
         }
 
         return result;
-    }
-
-    private boolean isVertexMarked(V vertex)
-    {
-        return this.markers.get(vertex) != null;
-    }
-
-    private boolean hasSufficientCapacity(DefaultWeightedEdge edge)
-    {
-        return this.f.get(edge) < this.g.getEdgeWeight(edge);
-    }
-
-    private boolean areAllMarkedEdgesInspected()
-    {
-        for (Marker m : this.markers.values())
-        {
-            if (!m.isInspected())
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private V getNextInspectedVertex()
-    {
-        for (V vertex : this.markers.keySet())
-        {
-            if (!this.markers.get(vertex).isInspected())
-            {
-                return vertex;
-            }
-        }
-
-        return null;
     }
 
     private void initialize()
