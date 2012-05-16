@@ -36,8 +36,7 @@ public class Dijkstra<V> {
 
     public List<V> getShortestPathToTarget(V target)
     {
-        List<V> path = new LinkedList();
-        path.add(target);
+        List<V> path = new LinkedList();        
 
         V tmp = target;
         while (this.predecessors.get(tmp) != null) 
@@ -45,6 +44,9 @@ public class Dijkstra<V> {
             tmp = this.predecessors.get(tmp);
             path.add(0, tmp);
         }
+
+        if (!path.isEmpty())
+            path.add(target);
 
         return path;
     }

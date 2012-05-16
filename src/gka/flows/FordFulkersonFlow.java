@@ -15,10 +15,11 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 public class FordFulkersonFlow<V>
 {
 
-    private DirectedGraph<V, DefaultWeightedEdge> g;
-    private Map<DefaultWeightedEdge, Double> f;
-    private V q;
-    private V s;
+    protected DirectedGraph<V, DefaultWeightedEdge> g;
+    protected Map<DefaultWeightedEdge, Double> f;
+    protected V q;
+    protected V s;
+
     private Map<V, Marker> markers;
 
     private class Marker
@@ -101,14 +102,14 @@ public class FordFulkersonFlow<V>
             if (isVertexMarked(this.s))
             {
                 widenFlow();
-                resetMarkers();
+                resetForNextRun();
             }
         }
 
         return calculateFlow();
     }
 
-    private boolean areAllMarkedEdgesInspected()
+    protected boolean areAllMarkedEdgesInspected()
     {
         for (Marker m : this.markers.values())
         {
@@ -121,7 +122,7 @@ public class FordFulkersonFlow<V>
         return true;
     }
 
-    private void inspectAndMark()
+    protected void inspectAndMark()
     {
         V current_vertex = getNextUninspectedVertex();
         Marker current_marker = this.markers.get(current_vertex);
@@ -151,7 +152,7 @@ public class FordFulkersonFlow<V>
         }
     }
 
-    private V getNextUninspectedVertex()
+    protected V getNextUninspectedVertex()
     {
         for (V vertex : this.markers.keySet())
         {
@@ -169,22 +170,20 @@ public class FordFulkersonFlow<V>
         return this.f.get(edge) < this.g.getEdgeWeight(edge);
     }
 
-    private boolean isVertexMarked(V vertex)
+    protected boolean isVertexMarked(V vertex)
     {
         return this.markers.get(vertex) != null;
     }
 
-    private void widenFlow()
+    protected void widenFlow()
     {
         V vertex = this.s;
         Marker s_marker = this.markers.get(this.s);
 
-        while (vertex != this.q)
+        while (!vertex.equals(this.q))
         {
             Marker marker = this.markers.get(vertex);
             V predecessor = marker.getPredecessor();
-
-            System.out.printf("%s, ", vertex);
 
             if (marker.isForward())
             {
@@ -192,18 +191,15 @@ public class FordFulkersonFlow<V>
                 this.f.put(edge, this.f.get(edge) + s_marker.getCapacity());
             } else
             {
-                DefaultWeightedEdge edge = this.g.getEdge(vertex, predecessor);
+                DefaultWeightedEdge edge = this.g.getEdge(predecessor, vertex);
                 this.f.put(edge, this.f.get(edge) - s_marker.getCapacity());
             }
 
             vertex = predecessor;
         }
-
-        System.out.printf("%s\n", this.q);
-        System.err.println(this.f);
     }
 
-    private double calculateFlow()
+    protected double calculateFlow()
     {
         Set<V> q_set = new HashSet();
         q_set.add(this.q);
@@ -254,7 +250,7 @@ public class FordFulkersonFlow<V>
         return outgoing_value - incoming_value;
     }
 
-    private void initialize()
+    protected void initialize()
     {
         this.f = new HashMap<DefaultWeightedEdge, Double>();
         for (DefaultWeightedEdge e : g.edgeSet())
@@ -262,12 +258,18 @@ public class FordFulkersonFlow<V>
             f.put(e, 0.0);
         }
 
-        resetMarkers();
+        resetForNextRun();
     }
 
-    private void resetMarkers()
+    protected void resetForNextRun()
     {
         this.markers = new HashMap<V, Marker>();
         this.markers.put(q, new Marker());
+        afterResetHook();
+    }
+    
+    protected void afterResetHook()
+    {
+        
     }
 }

@@ -1,0 +1,11 @@
+#gerichtet
+A,B,3
+A,D,3
+B,C,4
+C,A,3
+C,D,1
+C,F,2
+D,E,2
+D,F,6
+E,G,1
+F,G,9

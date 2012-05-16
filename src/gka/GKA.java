@@ -4,6 +4,7 @@
  */
 package gka;
 
+import gka.flows.EdmondsKarpFlow;
 import gka.flows.FordFulkersonFlow;
 import gka.pathfinders.Dijkstra;
 import gka.pathfinders.FloydWarshall;
@@ -56,7 +57,7 @@ public class GKA {
     public static void aufgabe_3() {
         DirectedGraph g = (DirectedGraph)(new GraphLoader("data/buch.graph")).getGraph();
         
-        FordFulkersonFlow<String> f = new FordFulkersonFlow(g);
+        FordFulkersonFlow<String> f = new EdmondsKarpFlow(g);
         System.out.printf("%f", f.getMaximumFlow("q", "s"));
     }
 }
