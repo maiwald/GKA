@@ -8,10 +8,14 @@ import gka.flows.EdmondsKarpFlow;
 import gka.flows.FordFulkersonFlow;
 import gka.pathfinders.Dijkstra;
 import gka.pathfinders.FloydWarshall;
+import gka.routing.Hierholzer;
 import gka.traversers.DepthFirst;
 import gka.traversers.Traverser;
+import java.util.List;
 import org.jgrapht.Graph;
+import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
+import org.jgrapht.graph.DefaultEdge;
 
 /**
  *
@@ -22,7 +26,7 @@ public class GKA
 
     public static void main(String[] args)
     {
-        aufgabe_3();
+        aufgabe_4();
     }
 
     public static void aufgabe_1()
@@ -73,5 +77,14 @@ public class GKA
         System.out.println("Edmonds Karp");
         FordFulkersonFlow<String> ek = new EdmondsKarpFlow(g);
         System.out.printf("%f\n", ek.getMaximumFlow("Hamburg", "München"));
+    }
+    
+    public static void aufgabe_4()
+    {
+         UndirectedGraph g = (UndirectedGraph) new GraphLoader("data/graph_02.graph").getGraph();
+         Hierholzer<String, DefaultEdge> h = new Hierholzer<String, DefaultEdge>();
+         
+         List<String> eulerTour = h.getEulerTour(g);
+         System.out.println(eulerTour);
     }
 }
