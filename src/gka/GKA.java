@@ -9,13 +9,16 @@ import gka.flows.FordFulkersonFlow;
 import gka.pathfinders.Dijkstra;
 import gka.pathfinders.FloydWarshall;
 import gka.routing.Hierholzer;
+import gka.routing.NearestInsertion;
 import gka.traversers.DepthFirst;
 import gka.traversers.Traverser;
 import java.util.List;
 import org.jgrapht.Graph;
 import org.jgrapht.UndirectedGraph;
+import org.jgrapht.WeightedGraph;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultWeightedEdge;
 
 /**
  *
@@ -60,9 +63,6 @@ public class GKA
         {
             System.out.println("der Graph ist stark zusammenhängend.");
         }
-
-        // sp_warshall.printDMatrix();
-        // sp_warshall.printTMatrix();
     }
 
     public static void aufgabe_3()
@@ -73,18 +73,27 @@ public class GKA
         FordFulkersonFlow<String> ff = new FordFulkersonFlow(g);
         System.out.printf("%f\n", ff.getMaximumFlow("Hamburg", "München"));
         System.out.println();
-        
+
         System.out.println("Edmonds Karp");
         FordFulkersonFlow<String> ek = new EdmondsKarpFlow(g);
         System.out.printf("%f\n", ek.getMaximumFlow("Hamburg", "München"));
     }
-    
+
     public static void aufgabe_4()
     {
-         UndirectedGraph g = (UndirectedGraph) new GraphLoader("data/graph_02.graph").getGraph();
+         UndirectedGraph g1 = (UndirectedGraph) new GraphLoader("data/euler_test.graph").getGraph();
          Hierholzer<String, DefaultEdge> h = new Hierholzer<String, DefaultEdge>();
-         
-         List<String> eulerTour = h.getEulerTour(g);
+
+         List<String> eulerTour = h.getEulerTour(g1);
          System.out.println(eulerTour);
+
+
+
+         WeightedGraph g2 = (WeightedGraph) new GraphLoader("data/k5.graph").getGraph();
+         NearestInsertion<String, DefaultWeightedEdge> n = new NearestInsertion<String, DefaultWeightedEdge>(g2);
+
+         List<String> hamiltonPath = n.getShortestHamiltonPath();
+         System.out.println(hamiltonPath);
+         System.out.println(n.getPathLength(hamiltonPath));
     }
 }

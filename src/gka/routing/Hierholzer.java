@@ -56,7 +56,7 @@ public class Hierholzer<V, E>
 
             this.paths.add(path);
         }
-     
+
         return this.mergePaths();
     }
 
@@ -64,7 +64,7 @@ public class Hierholzer<V, E>
     {
         List<V> path = this.paths.get(0);
         this.paths.remove(0);
-        
+
         while (!this.paths.isEmpty())
         {
             for (int i = 0; i < path.size(); i++)
@@ -82,7 +82,7 @@ public class Hierholzer<V, E>
 
         return path;
     }
-    
+
     private boolean isGraphSuitable()
     {
         ConnectivityInspector ci = new ConnectivityInspector<V, E>(this.g);
@@ -102,7 +102,7 @@ public class Hierholzer<V, E>
 
         return true;
     }
-    
+
     private boolean isEulerFound()
     {
         return this.g.edgeSet().isEmpty();
@@ -148,7 +148,7 @@ public class Hierholzer<V, E>
 
         return copy;
     }
-    
+
     private void debug(Object o)
     {
         System.out.println(o.toString());
