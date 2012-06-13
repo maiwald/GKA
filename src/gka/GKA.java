@@ -81,7 +81,7 @@ public class GKA
 
     public static void aufgabe_4()
     {
-         UndirectedGraph g1 = (UndirectedGraph) new GraphLoader("data/euler_test.graph").getGraph();
+         UndirectedGraph g1 = (UndirectedGraph) new GraphLoader("data/graph_11.graph").getGraph();
          Hierholzer<String, DefaultEdge> h = new Hierholzer<String, DefaultEdge>();
 
          List<String> eulerTour = h.getEulerTour(g1);
