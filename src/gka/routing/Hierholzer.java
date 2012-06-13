@@ -1,15 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package gka.routing;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import org.jgrapht.Graphs;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleGraph;
 
 /**
@@ -48,7 +46,6 @@ public class Hierholzer<V, E>
 
                 this.g.removeEdge(currentVertex, nextVertex);
                 this.g.removeEdge(nextVertex, currentVertex);
-
 
                 path.add(nextVertex);
                 currentVertex = nextVertex;
