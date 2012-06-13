@@ -145,9 +145,4 @@ public class Hierholzer<V, E>
 
         return copy;
     }
-
-    private void debug(Object o)
-    {
-        System.out.println(o.toString());
-    }
 }
