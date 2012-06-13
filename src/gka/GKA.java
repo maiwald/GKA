@@ -89,7 +89,7 @@ public class GKA
 
 
 
-         WeightedGraph g2 = (WeightedGraph) new GraphLoader("data/k5.graph").getGraph();
+         WeightedGraph g2 = (WeightedGraph) new GraphLoader("data/graph_11.graph").getGraph();
          NearestInsertion<String, DefaultWeightedEdge> n = new NearestInsertion<String, DefaultWeightedEdge>(g2);
 
          List<String> hamiltonPath = n.getShortestHamiltonPath();
